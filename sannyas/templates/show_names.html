@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block body %}
+    {% if session.logged_in %}
+        <form action="{{ url_for('add_name') }}" method="post" class="add-name">
+            <dl>
+                <dt>Male Name:
+                <dd><input type="text" size="30" name="name_male">
+                <dt>Male Script:
+                <dd><input type="text" size="30" name="script_male">
+                <dt>Female Name:
+                <dd><input type="text" size="30" name="name_female">
+                <dt>Female Script:
+                <dd><input type="text" size="30" name="script_female">
+                <dt>Meaning:
+                <dd><input type="text" size="30" name="meaning">
+                <dt>First Name:
+                <dd><input type="checkbox" name="first_name" value="1">
+                <dd><input type="hidden" name="first_name" value="0">
+                <dt>Second Name:
+                <dd><input type="checkbox" name="second_name" value="1">
+                <dd><input type="hidden" name="second_name" value="0">
+                <dt>
+                    <L></L>
+                    anguage:
+                <dd><input type="text" size="30" name="language">
+                <dt>Source:
+                <dd><input type="text" size="30" name="source">
+                <dt>Confirmation:
+                <dd><input type="text" size="30" name="confirmation">
+                <dt>Popularity:
+                <dd><input type="text" size="30" name="popularity">
+                <dt>Notes:
+                <dd><textarea name="note" rows="5" cols="40"></textarea>
+                <dd><input type="submit" value="Share">
+            </dl>
+        </form>
+    {% endif %}
+    <ul class="names">
+        {% for name in names %}
+            <li>{{ name.name_male }} - {{ name.script_male }} - {{ name.name_female }} - {{ name.script_female }}
+                - {{ name.meaning }}</li>
+            <li>{{ name.note|safe }}</li>
+        {% else %}
+            <li><em>Unbelievable. No names here so far</em></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

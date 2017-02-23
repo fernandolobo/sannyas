@@ -1,0 +1,3 @@
+graft sannyas/templates
+graft sannyas/static
+include sannyas/schema.sql

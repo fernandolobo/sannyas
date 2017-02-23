@@ -1,0 +1,1 @@
+from .sannyas import app
