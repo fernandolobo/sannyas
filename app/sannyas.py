@@ -7,7 +7,7 @@ render_template, flash
 app = Flask(__name__)
 
 app.config.update(dict(
-    DATABASE=os.path.join(app.root_path, 'sannyas.db'),
+    DATABASE=os.path.join(app.root_path, 'app.db'),
     DEBUG=True,
     SECRET_KEY='development key',
     USERNAME='admin',

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="1624540185">
+    <data-source source="LOCAL" name="Sqlite (Xerial) - sannyas.db" uuid="1ae33443-34b9-466d-a815-ecc4bb33c869">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/app/sannyas.db</jdbc-url>
+    </data-source>
+  </component>
+</project>
