@@ -1,0 +1,88 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+{% block title %}Sannyas Names{% endblock %}
+{% block body %}
+    <div class="content-section">
+        <div class="outer">
+            <div class="middle">
+                <div class="inner">
+                    <br/>
+                    {{ utils.flashed_messages() }}
+                    <br/>
+                    <h1 style="text-align:center;">Sannyas Names</h1>
+                    {% if names %}
+                        <hr class="intro-divider">
+                        <div class="center">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th width="7%"> Male Name</th>
+                                    <th width="7%"> Script Male</th>
+                                    <th width="7%"> Female Name</th>
+                                    <th width="7%"> Script Female</th>
+                                    <th width="15%"> Meaning</th>
+                                    <th width="2%"> 1st Name</th>
+                                    <th width="2%"> 2nd Name</th>
+                                    <th width="7%"> Language</th>
+                                    <th width="2%"> Source</th>
+                                    <th width="7%"> Confirmation</th>
+                                    <th width="7%"> Popularity</th>
+                                    <th width="15%"> Notes</th>
+                                    <th width="2%"> Employees</th>
+                                    <th width="7%"> Edit</th>
+                                    <th width="7%"> Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for name in names %}
+                                    <tr>
+                                        <td> {{ name.name_male }} </td>
+                                        <td> {{ name.script_male }} </td>
+                                        <td> {{ name.name_female }} </td>
+                                        <td> {{ name.script_female }} </td>
+                                        <td> {{ name.meaning }} </td>
+                                        <td> {{ name.first_name }} </td>
+                                        <td> {{ name.second_name }} </td>
+                                        <td> {{ name.language }} </td>
+                                        <td> {{ name.source }} </td>
+                                        <td> {{ name.confirmation }} </td>
+                                        <td> {{ name.popularity }} </td>
+                                        <td> {{ name.note }} </td>
+                                        <td>
+                                            {% if name.employees %}
+                                                {{ name.employees.count() }}
+                                            {% else %}
+                                                0
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{{ url_for('admin.edit_name', id=name.id) }}">
+                                                <i class="fa fa-pencil"></i> Edit
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ url_for('admin.delete_name', id=name.id) }}">
+                                                <i class="fa fa-trash"></i> Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="text-align: center">
+                    {% else %}
+                        <div style="text-align: center">
+                        <h3> No names have been added. </h3>
+                        <hr class="intro-divider">
+                    {% endif %}
+                    <a href="{{ url_for('admin.add_name') }}" class="btn btn-default btn-lg">
+                        <i class="fa fa-plus"></i>
+                        Add Name
+                    </a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

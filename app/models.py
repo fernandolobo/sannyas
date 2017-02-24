@@ -82,7 +82,7 @@ class Role(db.Model):
     def __repr__(self):
         return '<Role: {}>'.format(self.name)
 
-class Names(db.Model):
+class Name(db.Model):
     __tablename__ = 'names'
 
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)

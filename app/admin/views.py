@@ -2,9 +2,9 @@ from flask import abort, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
 
 from . import admin
-from forms import DepartmentForm, EmployeeAssignForm, RoleForm
+from forms import DepartmentForm, EmployeeAssignForm, RoleForm, NameForm
 from .. import db
-from ..models import Department, Employee, Role
+from ..models import Department, Employee, Role, Name
 
 
 def check_admin():
@@ -242,3 +242,126 @@ def assign_employee(id):
     return render_template('admin/employees/employee.html',
                            employee=employee, form=form,
                            title='Assign Employee')
+
+
+# Name
+@admin.route('/names')
+@login_required
+def list_names():
+    check_admin()
+    """
+    List all names
+    """
+    names = Name.query.all()
+    return render_template('admin/names/names.html',
+                           names=names, title='Names')
+
+
+@admin.route('/names/add', methods=['GET', 'POST'])
+@login_required
+def add_name():
+    """
+    Add a name to the database
+    """
+    check_admin()
+
+    add_name = True
+
+    form = NameForm()
+    if form.validate_on_submit():
+        name = Name(name_male=form.name_male.data,
+                    script_male=form.script_male.data,
+                    name_female=form.name_female.data,
+                    script_female=form.script_female.data,
+                    meaning=form.meaning.data,
+                    first_name=form.first_name.data,
+                    second_name=form.second_name.data,
+                    language=form.language.data,
+                    source=form.source.data,
+                    confirmation=form.confirmation.data,
+                    popularity=form.popularity.data,
+                    note=form.note.data)
+
+        try:
+            # add name to the database
+            db.session.add(name)
+            db.session.commit()
+            flash('You have successfully added a new name.')
+        except:
+            # in case name name already exists
+            flash('Error: name already exists.')
+
+        # redirect to the names page
+        return redirect(url_for('admin.list_names'))
+
+    # load name template
+    return render_template('admin/names/name.html', add_name=add_name,
+                           form=form, title='Add Name')
+
+
+@admin.route('/names/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_name(id):
+    """
+    Edit a name
+    """
+    check_admin()
+
+    add_name = False
+
+    name = Name.query.get_or_404(id)
+    form = NameForm(obj=name)
+    if form.validate_on_submit():
+        name.name_male = form.name_male.data
+        name.script_male = form.script_male.data
+        name.name_female = form.name_female.data
+        name.script_female = form.script_female.data
+        name.meaning = form.meaning.data
+        name.first_name = form.first_name.data
+        name.second_name = form.second_name.data
+        name.language = form.language.data
+        name.source = form.source.data
+        name.confirmation = form.confirmation.data
+        name.popularity = form.popularity.data
+        name.note = form.note.data
+
+        db.session.add(name)
+        db.session.commit()
+        flash('You have successfully edited the name.')
+
+        # redirect to the names page
+        return redirect(url_for('admin.list_names'))
+
+    form.name_male = name.name_male
+    form.script_male = name.script_male
+    form.name_female = name.name_female
+    form.script_female = name.script_female
+    form.meaning = name.meaning
+    form.first_name = name.first_name
+    form.second_name = name.second_name
+    form.language = name.language
+    form.source = name.source
+    form.confirmation = name.confirmation
+    form.popularity = name.popularity
+    form.note = name.note
+    return render_template('admin/names/name.html', add_name=add_name,
+                           form=form, title="Edit Name")
+
+
+@admin.route('/names/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_name(id):
+    """
+    Delete a name from the database
+    """
+    check_admin()
+
+    name = Name.query.get_or_404(id)
+    db.session.delete(name)
+    db.session.commit()
+    flash('You have successfully deleted the name.')
+
+    # redirect to the names page
+    return redirect(url_for('admin.list_names'))
+
+    return render_template(title="Delete Name")
